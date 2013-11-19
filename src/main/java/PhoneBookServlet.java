@@ -1,6 +1,9 @@
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class PhoneBookServlet
  */
-@WebServlet(name="adresess", urlPatterns={"/adr"})
+@WebServlet(name="PhoneBookServlet", urlPatterns={"/"})
 public class PhoneBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,8 +39,14 @@ public class PhoneBookServlet extends HttpServlet {
 		
 	}
 	
-	private void handle(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		response.getWriter().println("OOK!");
+	private void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsps/NewFile1.jsp");
+		dispatcher.forward(request, response);
+		response.setContentType("text/html");
+		PrintWriter pw = response.getWriter();
+		pw.println("");
+		pw.println("");
+		pw.println("<h1>Hello World</h1>");
 	}
 
 }
