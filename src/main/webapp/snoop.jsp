@@ -10,7 +10,7 @@
 <H1>WebApp JSP Snoop page</H1>
 <img src="images/jbosscorp_logo.png">
 
-<h2>JVM Memory Monitor</h2>
+<h2>JVM Memory Monitor[ADDED]</h2>
  
  
 <table border="0" width="100%">
