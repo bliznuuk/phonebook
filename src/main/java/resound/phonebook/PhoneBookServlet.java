@@ -1,3 +1,4 @@
+package resound.phonebook;
 
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class PhoneBookServlet
  */
-@WebServlet(name="PhoneBookServlet", urlPatterns={"/adr"})
+@WebServlet({"/adr","/br"})
 public class PhoneBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
