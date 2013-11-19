@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class PhoneBookServlet
  */
-@WebServlet(name="PhoneBookServlet", urlPatterns={"/"})
+@WebServlet(name="PhoneBookServlet", urlPatterns={"/adr"})
 public class PhoneBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
