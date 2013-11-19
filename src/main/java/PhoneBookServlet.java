@@ -40,8 +40,6 @@ public class PhoneBookServlet extends HttpServlet {
 	}
 	
 	private void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsps/NewFile1.jsp");
-		dispatcher.forward(request, response);
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		pw.println("");
