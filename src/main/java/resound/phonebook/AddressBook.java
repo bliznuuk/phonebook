@@ -42,6 +42,17 @@ public class AddressBook {
 
 	public void addContact(String name, String number, String comment) throws IOException{
 		contactsByName.put(name, new Contact(name, number, comment));
+
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/address", 
+				"root", "armada")){
+			Statement statement = connection.createStatement();
+			statement.executeQuery("INSERT INTO adresses VALUES('ins_first_to_db','332233','add from statement')");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 		saveContactInformation();
 	}
 	
