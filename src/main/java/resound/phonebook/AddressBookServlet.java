@@ -68,6 +68,11 @@ public class AddressBookServlet extends HttpServlet {
 		
 		switch (target) {
 			case "/":
+				String lh = System.getenv("OPENSHIFT_DB_HOST");
+				String lh2 = System.getenv("$OPENSHIFT_DB_HOST");
+				String lh3 = System.getenv("${OPENSHIFT_DB_HOST}");
+				request.setAttribute("message",lh+lh2+lh3);
+				
 				outputPage("index.jsp", request, response);
 				break;
 			case "/auth":
