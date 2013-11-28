@@ -34,12 +34,7 @@ public class AddressBookServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
-    	try {
-			addressBook = new AddressBook();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+    	addressBook = new AddressBook();
     	try {
 			addressBook.addContact("first", "1234", "comm");
 		} catch (IOException e) {
@@ -68,14 +63,6 @@ public class AddressBookServlet extends HttpServlet {
 		
 		switch (target) {
 			case "/":
-				String lh = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-				String PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
-				String USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
-				String PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-				String URL = System.getenv("OPENSHIFT_MYSQL_DB_URL");
-				String DBNAME = "phonebook3";
-				request.setAttribute("message",lh+"/n"+PORT+"/n"+USERNAME+"/n"+URL);
-				
 				outputPage("index.jsp", request, response);
 				break;
 			case "/auth":

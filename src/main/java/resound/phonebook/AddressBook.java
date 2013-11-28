@@ -12,37 +12,17 @@ import java.util.TreeMap;
 public class AddressBook {
 	private Map<String,Contact> contactsByName;
 	
-	public AddressBook() throws SQLException {
+	public AddressBook(){
 		contactsByName = new TreeMap<String,Contact>();
-/*		try {
-			Class.forName("org.gjt.mm.mysql.Driver").newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/address", 
+				"root", "armada")){
+			Statement statement = connection.createStatement();
+			statement.executeQuery("INSERT INTO adresses VALUES('ins_first_to_db','332233','add from statement')");
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/address", 
-				"root", "armada");
-		try{
-			Statement statement = connection.createStatement();
-			statement.executeUpdate(
-			           "CREATE TABLE addresses (\n" +
-			           "name varchar(200) default NULL,\n" +
-			           "number varchar(200) default NULL,\n" +
-			           "comment varchar(200) default NULL\n" +
-			           ") DEFAULT CHARSET=utf8");
-			statement.executeUpdate("CREATE TABLE addresses", new String[]{
-								"name varchar(200) default NULL",
-								"number varchar(200) default NULL",
-								"comment varchar(200) default NULL"});
-		}finally{
-			connection.close();
-		}*/
+		
 	}
 	public AddressBook(String name, String number, String comment) throws IOException, SQLException{
 		this();
