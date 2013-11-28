@@ -69,9 +69,12 @@ public class AddressBookServlet extends HttpServlet {
 		switch (target) {
 			case "/":
 				String lh = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-				String lh2 = System.getenv("$OPENSHIFT_MYSQL_DB_HOST");
-				String lh3 = System.getenv("${OPENSHIFT_MYSQL_DB_HOST}");
-				request.setAttribute("message",lh+lh2+lh3);
+				String PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
+				String USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+				String PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+				String URL = System.getenv("OPENSHIFT_MYSQL_DB_URL");
+				String DBNAME = "phonebook3";
+				request.setAttribute("message",lh+"/n"+PORT+"/n"+USERNAME+"/n"+URL);
 				
 				outputPage("index.jsp", request, response);
 				break;
