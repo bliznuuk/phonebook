@@ -14,15 +14,15 @@ public class AddressBook {
 	
 	public AddressBook(){
 		contactsByName = new TreeMap<String,Contact>();
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/address", 
-				"root", "armada")){
+/*		try (Connection connection = DriverManager.getConnection(
+				"jdbc:mysql://phonebook3-resound.rhcloud.com:3306/phonebook3", "adminXU9chNa", "pyd5AUHSEa7H")){
 			Statement statement = connection.createStatement();
 			statement.executeQuery("INSERT INTO adresses VALUES('ins_first_to_db','332233','add from statement')");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	*/	
 	}
 	public AddressBook(String name, String number, String comment) throws IOException, SQLException{
 		this();
@@ -43,10 +43,10 @@ public class AddressBook {
 	public void addContact(String name, String number, String comment) throws IOException{
 		contactsByName.put(name, new Contact(name, number, comment));
 
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/address", 
-				"root", "armada")){
+		try (Connection connection = DriverManager.getConnection(
+				"jdbc:mysql://phonebook3-resound.rhcloud.com:3306/phonebook3", "adminXU9chNa", "pyd5AUHSEa7H")){
 			Statement statement = connection.createStatement();
-			statement.executeQuery("INSERT INTO adresses VALUES('ins_first_to_db','332233','add from statement')");
+			statement.executeUpdate("INSERT INTO addresses VALUES('nm1','phn1','cmnt1')");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
