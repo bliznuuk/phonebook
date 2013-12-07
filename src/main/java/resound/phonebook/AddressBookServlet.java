@@ -58,7 +58,6 @@ public class AddressBookServlet extends HttpServlet {
 	}
 
 	private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		System.out.println("fsaf");
 		request.setCharacterEncoding("utf-8");
 		String target = request.getRequestURI().substring(request.getContextPath().length());
 		
