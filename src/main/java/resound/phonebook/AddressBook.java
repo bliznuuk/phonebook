@@ -43,7 +43,7 @@ public class AddressBook {
 	public void addContact(String name, String number, String comment) throws IOException{
 		contactsByName.put(name, new Contact(name, number, comment));
 
-		try (Connection connection = DriverManager.getConnection(
+/*		try (Connection connection = DriverManager.getConnection(
 				"jdbc:mysql://phonebook3-resound.rhcloud.com:3306/phonebook3", "adminXU9chNa", "pyd5AUHSEa7H")){
 			Statement statement = connection.createStatement();
 			statement.executeUpdate("INSERT INTO addresses VALUES('nm1','phn1','cmnt1')");
@@ -51,7 +51,7 @@ public class AddressBook {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+*/
 		
 		saveContactInformation();
 	}

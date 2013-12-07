@@ -1,7 +1,10 @@
 package resound.phonebook;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +63,16 @@ public class AddressBookServlet extends HttpServlet {
 	private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		request.setCharacterEncoding("utf-8");
 		String target = request.getRequestURI().substring(request.getContextPath().length());
-		
+
+		try (Connection connection = DriverManager.getConnection(
+				"jdbc:mysql://phonebook3-resound.rhcloud.com:3306/phonebook3", "adminXU9chNa", "pyd5AUHSEa7H")){
+			Statement statement = connection.createStatement();
+			statement.executeUpdate("INSERT INTO addresses VALUES('nm1','phn1','cmnt1')");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		switch (target) {
 			case "/":
 				outputPage("index.jsp", request, response);
