@@ -73,6 +73,7 @@ public class AddressBookServlet extends HttpServlet {
 			statement.executeUpdate("INSERT INTO addresses VALUES('nm1','phn1','cmnt1')");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println(host+" "+port);
 			e.printStackTrace();
 		}
 
