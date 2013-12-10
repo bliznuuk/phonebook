@@ -64,8 +64,8 @@ public class AddressBookServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String target = request.getRequestURI().substring(request.getContextPath().length());
 		
-		String host = System.getenv("$OPENSHIFT_MYSQL_DB_HOST");
-		String port = System.getenv("$OPENSHIFT_MYSQL_DB_PORT");
+		String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+		String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
 
 		try (Connection connection = DriverManager.getConnection(
 				"jdbc:mysql://phonebook3-resound.rhcloud.com:3306/phonebook3", "adminXU9chNa", "pyd5AUHSEa7H")){
