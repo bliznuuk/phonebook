@@ -67,8 +67,14 @@ public class AddressBookServlet extends HttpServlet {
 		String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 		String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
 
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try (Connection connection = DriverManager.getConnection(
-				"jdbc:mysql://phonebook3-resound.rhcloud.com:3306/phonebook3", "adminXU9chNa", "pyd5AUHSEa7H")){
+				"jdbc:mysql://"+host+":3306/phonebook3", "adminXU9chNa", "pyd5AUHSEa7H")){
 			Statement statement = connection.createStatement();
 			statement.executeUpdate("INSERT INTO addresses VALUES('nm1','phn1','cmnt1')");
 		} catch (SQLException e) {
