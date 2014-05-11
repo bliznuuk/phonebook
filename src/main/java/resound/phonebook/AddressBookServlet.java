@@ -1,10 +1,8 @@
 package resound.phonebook;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,10 +35,10 @@ public class AddressBookServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
-    	addressBook = new AddressBook();
     	try {
+        	addressBook = new AddressBook();
 			addressBook.addContact("first", "1234", "comm");
-		} catch (IOException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -49,41 +47,28 @@ public class AddressBookServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		handle(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		handle(request, response);
 	}
 
-	private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		request.setCharacterEncoding("utf-8");
-		String target = request.getRequestURI().substring(request.getContextPath().length());
-		
-		String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-		String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
-
+	private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException{
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e1) {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try (Connection connection = DriverManager.getConnection(
-				"jdbc:mysql://"+host+":3306/phonebook3", "adminXU9chNa", "pyd5AUHSEa7H")){
-			Statement statement = connection.createStatement();
-			statement.executeUpdate("INSERT INTO addresses VALUES('nm1','phn1','cmnt1')");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println(host+" "+port);
 			e.printStackTrace();
 		}
+		String target = request.getRequestURI().substring(request.getContextPath().length());
 
-		switch (target) {
+		try{
+			switch (target) {
 			case "/":
 				outputPage("index.jsp", request, response);
 				break;
@@ -107,10 +92,13 @@ public class AddressBookServlet extends HttpServlet {
 				break;
 			default:
 				break;
+			}		
+		}catch(SQLException e){
+			e.printStackTrace();
 		}
 	}
 	
-	private void handleView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void handleView(HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException{
 		Map<String, String> numbers = new HashMap<String, String>();
 		Map<String, String> comments = new HashMap<String, String>();
 		for(Map.Entry<String, Contact> entry : addressBook.getContacts().entrySet()){
@@ -122,7 +110,7 @@ public class AddressBookServlet extends HttpServlet {
 		outputPage("view.jsp", request, response);
 	}
 	
-	private void handleAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void handleAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException{
 		if(request.getParameter("name")==null){
 			request.setAttribute("name", "");
 			request.setAttribute("number", "");
@@ -145,13 +133,12 @@ public class AddressBookServlet extends HttpServlet {
 		}
 	}
 	
-	private void handleEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void handleEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException{
 		String name = request.getParameter("name");
 		if(request.getParameter("edited")!=null){
-			String eName = (String) request.getParameter("name");
 			String eNumber = (String) request.getParameter("number");
 			String eComment = (String) request.getParameter("comment");
-			addressBook.editContact(name, eName, eNumber, eComment);
+			addressBook.editContact(name, eNumber, eComment);
 			handleView(request, response);
 		}else if(name!=null){ 
 			Contact contact = addressBook.getContacts().get(name);
@@ -165,15 +152,16 @@ public class AddressBookServlet extends HttpServlet {
 		
 	}
 	
-	private void handleRemove(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void handleRemove(HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException{
 		String name = request.getParameter("name");
-		Contact contact = addressBook.getContact(name);
+		Contact contact = null;
+		contact = addressBook.getContact(name);
 		addressBook.remove(name);
 		request.setAttribute("message", "Removed: "+contact);
 		handleView(request, response);
 	}
 	
-	private void handleAuth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void handleAuth(HttpServletRequest request, HttpServletResponse response) throws ServletException{
 		String login = request.getParameter("login");
 		String pass = request.getParameter("password");
 		if(login!=null & pass!=null){
@@ -192,13 +180,23 @@ public class AddressBookServlet extends HttpServlet {
 		}
 	}
 	
-	private void handleLogout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void handleLogout(HttpServletRequest request, HttpServletResponse response){
 		request.getSession().invalidate();
-		response.sendRedirect(request.getContextPath());
+		try {
+			response.sendRedirect(request.getContextPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private void outputPage(String JSPName, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void outputPage(String JSPName, HttpServletRequest request, HttpServletResponse response) throws ServletException{
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsps/" + JSPName);
-		dispatcher.forward(request, response);
+		try {
+			dispatcher.forward(request, response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
