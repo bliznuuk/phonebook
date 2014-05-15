@@ -77,7 +77,7 @@ public class AddressBook {
 	}
 	
 	public Map<String,Contact> getContacts() throws SQLException{
-		final String SQL = "SELECT name, number, comment FROM adresses";
+		final String SQL = "SELECT name, number, comment FROM addresses";
 		Map<String,Contact> contacts = new TreeMap<String, Contact>();
 		try(Connection connection = poolingDataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL)){

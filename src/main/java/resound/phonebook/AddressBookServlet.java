@@ -94,7 +94,8 @@ public class AddressBookServlet extends HttpServlet {
 				break;
 			}		
 		}catch(SQLException e){
-			e.printStackTrace();
+			request.setAttribute("message", "SQLException!");
+			outputPage("index.jsp", request, response);
 		}
 	}
 	
