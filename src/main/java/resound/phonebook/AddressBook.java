@@ -92,7 +92,7 @@ public class AddressBook {
 	}
 
 	public void addContact(String name, String number, String comment)throws SQLException{
-		final String SQL = "INSERT INTO addresses(name,number,comment,) VALUES(?,?,?)";
+		final String SQL = "INSERT INTO addresses(name,number,comment) VALUES(?,?,?)";
 		try(Connection connection = poolingDataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL);) {
 			statement.setString(1, name);
